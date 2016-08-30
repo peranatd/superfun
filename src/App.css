@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   background-color: #222;
   height: 150px;
@@ -14,11 +9,26 @@
   color: white;
 }
 
-.App-intro {
-  font-size: large;
+.App-header h4 {
+  font-weight: 400;
+  font-style: italic;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.card {
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 60rem;
+  height: 25rem;
+  display: inline-block;
+  margin: 20px;
+}
+
+.card p {
+  font-size: 16px;
+}
+
+.btn-primary {
+  position: relative;
+  bottom: -70px;
+  margin: 0 10px;
 }
