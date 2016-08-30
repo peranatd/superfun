@@ -5,7 +5,7 @@ const Learn = (props) => {
     <div>
       <div className="words">
         <h3 className="card-title">{props.state.word}</h3>
-        <div className="obscurer"></div>
+        { props.state.pendingMastery.length ? <div className="obscurer"></div> : null }
         <p className="card-text">{props.state.definition}</p>
         <p className="card-text example">{props.state.example}</p>
       </div>
