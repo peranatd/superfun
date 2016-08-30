@@ -27,8 +27,24 @@
   font-size: 16px;
 }
 
+.example {
+  font-style: italic;
+}
+
 .words {
   height: 17rem;
+  position: relative;
+}
+
+.obscurer {
+  position: absolute;
+  width: 100%;
+  height: 10rem;
+  background-color: white;
+}
+
+.obscurer:hover {
+  background-color: transparent;
 }
 
 .input-group {

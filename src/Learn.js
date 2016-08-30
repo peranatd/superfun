@@ -5,8 +5,9 @@ const Learn = (props) => {
     <div>
       <div className="words">
         <h3 className="card-title">{props.state.word}</h3>
+        <div className="obscurer"></div>
         <p className="card-text">{props.state.definition}</p>
-        <p className="card-text">{props.state.example}</p>
+        <p className="card-text example">{props.state.example}</p>
       </div>
       <div className="buttons">
         <a className="btn btn-success" onClick={() => props.practice(true)}>I KNOW THIS</a>
