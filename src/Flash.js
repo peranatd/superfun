@@ -14,6 +14,9 @@ class Flash extends Component {
   }
 
   toggleMode() {
+    if (this.state.inputMode) {
+      this.clearInput();
+    }
     this.setState({
       inputMode: !this.state.inputMode
     });
@@ -22,9 +25,25 @@ class Flash extends Component {
   handleInput() {
     this.setState({
       input: {
-        word: document.getElementById('wordInput').value()
+        word: document.getElementById('wordInput').value,
+        definition: document.getElementById('defInput').value,
+        example: document.getElementById('exInput').value
       }
     });
+  }
+
+  handleSubmit() {
+    // send the input to server
+    // increment count if successful
+    this.state.count++;
+    this.clearInput();
+  }
+
+  clearInput() {
+    document.getElementById('wordInput').value = '';
+    document.getElementById('defInput').value = '';
+    document.getElementById('exInput').value = '';
+    this.handleInput();
   }
 
   render() {
@@ -46,26 +65,27 @@ class Flash extends Component {
             </div>
           ) : (
             <div>
-              <div className="words">
+              <div className="words" onChange={this.handleInput.bind(this)}>
                 <div className="input-group">
                   <span className="input-group-addon" id="basic-addon1">word</span>
-                  <input type="text" className="form-control" aria-describedby="basic-addon1" />
+                  <input type="text" id="wordInput" className="form-control" aria-describedby="basic-addon1" />
                 </div>
                 <div className="input-group">
                   <span className="input-group-addon" id="basic-addon2">definition</span>
-                  <input type="text" className="form-control" aria-describedby="basic-addon2" />
+                  <input type="text" id="defInput" className="form-control" aria-describedby="basic-addon2" />
                 </div>
                 <div className="input-group">
                   <span className="input-group-addon" id="basic-addon3">example</span>
-                  <input type="text" className="form-control" aria-describedby="basic-addon3" />
+                  <input type="text" id="exInput" className="form-control" aria-describedby="basic-addon3" />
                 </div>
               </div>
-              <a className="btn btn-primary">Submit</a>
+              <a className="btn btn-primary" onClick={this.handleSubmit.bind(this)}>Submit</a>
               <a className="btn btn-default" onClick={this.toggleMode.bind(this)}>Toggle Input</a>
             </div>
           )}
         </div>
         <div>
+        <h4>Words added: {this.state.count}</h4>
         {JSON.stringify(this.state)}
         </div>
       </div>
