@@ -118,7 +118,7 @@ class Flash extends Component {
     }
     this.setState({
       inputMode: !this.state.inputMode
-    });
+    }, this.getNext);
   }
 
   render() {
