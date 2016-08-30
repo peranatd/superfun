@@ -70,20 +70,22 @@ class Flash extends Component {
   }
 
   postWord(word, callback) {
-    $.ajax({
-      url: '/api/word',
-      method: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(word)
-    }).done(result => {
-      this.state.count++;
-      this.setState({
-        pendingMastery: [...this.state.pendingMastery, word]
+    if (word.word && word.definition && word.example) {
+      $.ajax({
+        url: '/api/word',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(word)
+      }).done(result => {
+        this.state.count++;
+        this.setState({
+          pendingMastery: [...this.state.pendingMastery, word]
+        });
+        callback(result);
+      }).fail(err => {
+        callback(err);
       });
-      callback(result);
-    }).fail(err => {
-      callback(err);
-    });
+    }
   }
 
   handleInput() {
