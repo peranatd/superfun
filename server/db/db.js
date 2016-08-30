@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 const options = { promiseLibrary: require('bluebird') };
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/superFun';
 
 mongoose.connect(mongoUri, options);
 const db = mongoose.connection;
