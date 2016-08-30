@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Input from './Input';
+import Learn from './Learn';
+import $ from 'jquery';
 
 class Flash extends Component {
   constructor(props) {
@@ -51,37 +54,16 @@ class Flash extends Component {
       <div className="Flash">
         <div className="card card-block">
           {(!this.state.inputMode) ? (
-            <div>
-              <div className="words">
-                <h3 className="card-title">{this.state.word}</h3>
-                <p className="card-text">{this.state.definition}</p>
-                <p className="card-text">{this.state.example}</p>
-              </div>
-              <div className="buttons">
-                <a className="btn btn-success">I KNOW THIS</a>
-                <a className="btn btn-danger">I DONT KNOW THIS</a>
-                <a className="btn btn-default" onClick={this.toggleMode.bind(this)}>Toggle Input</a>
-              </div>
-            </div>
+            <Learn
+              state={this.state}
+              toggleMode={this.toggleMode.bind(this)}
+            />
           ) : (
-            <div>
-              <div className="words" onChange={this.handleInput.bind(this)}>
-                <div className="input-group">
-                  <span className="input-group-addon" id="basic-addon1">word</span>
-                  <input type="text" id="wordInput" className="form-control" aria-describedby="basic-addon1" />
-                </div>
-                <div className="input-group">
-                  <span className="input-group-addon" id="basic-addon2">definition</span>
-                  <input type="text" id="defInput" className="form-control" aria-describedby="basic-addon2" />
-                </div>
-                <div className="input-group">
-                  <span className="input-group-addon" id="basic-addon3">example</span>
-                  <input type="text" id="exInput" className="form-control" aria-describedby="basic-addon3" />
-                </div>
-              </div>
-              <a className="btn btn-primary" onClick={this.handleSubmit.bind(this)}>Submit</a>
-              <a className="btn btn-default" onClick={this.toggleMode.bind(this)}>Toggle Input</a>
-            </div>
+            <Input
+              handleInput={this.handleInput.bind(this)}
+              toggleMode={this.toggleMode.bind(this)}
+              handleSubmit={this.handleSubmit.bind(this)}
+            />
           )}
         </div>
         <div>

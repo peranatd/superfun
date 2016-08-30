@@ -25,4 +25,3 @@ exports.addWord = function(word) {
 exports.updateWord = function(word) {
   return Word.findOneAndUpdate({'word': word.word}, word).exec();
 };
-
