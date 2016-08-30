@@ -7,21 +7,82 @@ class Flash extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      word: 'an obscure word...',
-      definition: 'a definition of the word',
-      example: 'a contrived sample sentence using the word',
+      word: '',
+      definition: '',
+      example: '',
       inputMode: false,
       input: {},
-      count: 0
+      count: 0,
+      mastered: [],
+      pendingMastery: []
     };
   }
 
-  toggleMode() {
-    if (this.state.inputMode) {
-      this.clearInput();
+  practice(learned) {
+    if (learned) {
+      if (this.state.pendingMastery.length) {
+        this.setState({
+          mastered: [...this.state.mastered, this.state.pendingMastery[0]],
+          pendingMastery: this.state.pendingMastery.slice(1)
+        }, this.getNext);
+      }
+    } else {
+      this.setState({
+        pendingMastery: this.shuffle(this.state.pendingMastery)
+      }, this.getNext);
     }
-    this.setState({
-      inputMode: !this.state.inputMode
+  }
+
+  getNext() {
+    if (this.state.pendingMastery.length) {
+      this.setState(this.state.pendingMastery[0]);
+    } else {
+      this.setState({
+        word: 'Well Done!',
+        definition: 'you have mastered all words currently in the database',
+        example: 'time to add some more!'
+      });
+    }
+  }
+
+  shuffle(array) {
+    const copy = [...array];
+    const result = [];
+    while (copy.length) {
+      result.push(copy.splice(~~(Math.random()*copy.length), 1)[0]);
+    }
+    return result;
+  }
+
+  componentDidMount() {
+    this.getWordList();
+  }
+
+  getWordList() {
+    $.ajax({
+      url: '/api/word',
+      method: 'GET'
+    }).done(data => {
+      this.setState({ pendingMastery: this.shuffle(data) }, this.getNext);
+    }).fail(err => {
+      console.log(err);
+    });
+  }
+
+  postWord(word, callback) {
+    $.ajax({
+      url: '/api/word',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(word)
+    }).done(result => {
+      this.state.count++;
+      this.setState({
+        pendingMastery: [...this.state.pendingMastery, word]
+      });
+      callback(result);
+    }).fail(err => {
+      callback(err);
     });
   }
 
@@ -36,10 +97,12 @@ class Flash extends Component {
   }
 
   handleSubmit() {
-    // send the input to server
-    // increment count if successful
-    this.state.count++;
-    this.clearInput();
+    const word = {
+      word: document.getElementById('wordInput').value,
+      definition: document.getElementById('defInput').value,
+      example: document.getElementById('exInput').value
+    };
+    this.postWord(word, () => this.clearInput());
   }
 
   clearInput() {
@@ -47,6 +110,15 @@ class Flash extends Component {
     document.getElementById('defInput').value = '';
     document.getElementById('exInput').value = '';
     this.handleInput();
+  }
+
+  toggleMode() {
+    if (this.state.inputMode) {
+      this.clearInput();
+    }
+    this.setState({
+      inputMode: !this.state.inputMode
+    });
   }
 
   render() {
@@ -57,6 +129,7 @@ class Flash extends Component {
             <Learn
               state={this.state}
               toggleMode={this.toggleMode.bind(this)}
+              practice={this.practice.bind(this)}
             />
           ) : (
             <Input
@@ -68,7 +141,7 @@ class Flash extends Component {
         </div>
         <div>
         <h4>Words added: {this.state.count}</h4>
-        {JSON.stringify(this.state)}
+        <h4>Words mastered: {this.state.mastered.length} / {this.state.mastered.length + this.state.pendingMastery.length} </h4>
         </div>
       </div>
     );

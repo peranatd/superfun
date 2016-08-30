@@ -7,8 +7,8 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Welcome to fetsjs</h2>
-          <h4>...and to another session of learning useless words</h4>
+          <h2>Welcome to Super Fun!</h2>
+          <h4>...and to another session of learning new words</h4>
         </div>
         <Flash />
       </div>

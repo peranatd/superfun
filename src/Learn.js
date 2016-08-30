@@ -9,8 +9,8 @@ const Learn = (props) => {
         <p className="card-text">{props.state.example}</p>
       </div>
       <div className="buttons">
-        <a className="btn btn-success">I KNOW THIS</a>
-        <a className="btn btn-danger">I DONT KNOW THIS</a>
+        <a className="btn btn-success" onClick={() => props.practice(true)}>I KNOW THIS</a>
+        <a className="btn btn-danger" onClick={() => props.practice(false)}>I DONT KNOW THIS</a>
         <a className="btn btn-default" onClick={props.toggleMode}>Toggle Input</a>
       </div>
     </div>
